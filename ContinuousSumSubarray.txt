@@ -1,0 +1,47 @@
+public class Solution {
+
+    public boolean checkSubarraySum(int[] nums, int k){
+        int length = nums.length;
+
+        boolean inputIs0 = false;
+
+        if(length < 2 || nums == null){
+            return false;
+        }
+
+        if(k == 0){
+            inputIs0 = true;
+        }
+
+        // If we have reached here we have an array of atleast two numbers in it.
+        int runningSum = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, -1);
+
+        for(int i = 0; i < length; i++){
+            runningSum += nums[i];
+            int key;
+            if(inputIs0){
+                key = runningSum;
+            }
+            else{
+                key = runningSum % k;
+            }
+            if(map.get(key) != null) {
+                if (map.get(key) < i - 1) {
+                    return true;
+                }
+                else{
+                    // do nothing!
+                }
+            }
+            else{
+                map.put(key, i);
+            }
+        }
+
+        return false;
+
+    }
+
+}
