@@ -1,0 +1,25 @@
+public class Solution {
+
+    public boolean isOneBitCharacter(int[] bits){
+        int length = bits.length;
+        if(length == 1){
+            return true;
+        }
+        if(bits[length - 2] == 0){
+            return true;
+        }
+        int onesCount = 1;
+        int i = length - 3;
+        while(i >= 0 && bits[i] != 0){ // If you write in the reverse order then runtime error can occur. This is done to intentionally short circuit at that point.
+            onesCount++;
+            i--;
+        }
+        if(onesCount % 2 == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+}
