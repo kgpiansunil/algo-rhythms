@@ -1,0 +1,35 @@
+public class Solution {
+
+    public int findShortestSubArray(int[] nums) {
+
+        int length = nums.length;
+
+        if(length == 0){
+            return 0;
+        }
+
+        Map<Integer, Integer> startingIndexMap = new HashMap<>();
+        Map<Integer, Integer> endingIndexMap = new HashMap<>();
+        Map<Integer, Integer> frequencyCountMap = new HashMap<>();
+
+        for (int i = 0; i < length; i++){
+            int key = nums[i];
+            if(startingIndexMap.get(key) == null){
+                startingIndexMap.put(key, i);
+            }
+            endingIndexMap.put(key, i);
+            frequencyCountMap.put(key, frequencyCountMap.getOrDefault(key, 0) + 1);
+        }
+
+        int degree = Collections.max(frequencyCountMap.values());
+        int minLength = length;
+
+        for(int i: frequencyCountMap.keySet()){
+            if(frequencyCountMap.get(i) == degree){
+                minLength = Math.min(minLength, endingIndexMap.get(i) - startingIndexMap.get(i) + 1);
+            }
+        }
+
+        return minLength;
+    }
+}
