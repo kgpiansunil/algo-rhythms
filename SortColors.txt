@@ -1,0 +1,33 @@
+public class Solution {
+
+    public void sortColors(int[] nums){
+        int length = nums.length;
+        int redsCount = 0;
+        int whitesCount = 0;
+        int bluesCount = 0;
+        for(int i = 0; i < length; i++){
+            if(nums[i] == 0){
+                redsCount++;
+            }
+            else if(nums[i] == 1){
+                whitesCount++;
+            }
+            else{
+                bluesCount++;
+            }
+        }
+        for(int i = 0; i < redsCount; i++){
+            nums[i] = 0;
+        }
+        for(int i = 0; i < whitesCount; i++){
+            nums[i + redsCount] = 1;
+        }
+
+        int redwhiteCount = redsCount + whitesCount;
+
+        for(int i = 0; i < bluesCount; i++){
+            nums[i + redwhiteCount] = 2;
+        }
+    }
+
+}
