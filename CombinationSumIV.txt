@@ -1,0 +1,39 @@
+public class Solution {
+
+    private Map<Integer, Integer> map = new HashMap<>();
+
+    public int combinationSum4(int[] nums, int target){
+        if(nums == null){
+            return 0;
+        }
+        int length = nums.length;
+        int numberOfCombinations = 0;
+        numberOfCombinations = dpHelper(nums, target);
+        return numberOfCombinations;
+
+    }
+
+    private int dpHelper(int[] nums, int target){
+        if(target == 0){
+            return 1;
+        }
+
+        if(map.get(target) != null){
+            return map.get(target);
+        }
+        int length = nums.length;
+        int numberOfWays = 0;
+
+        for(int i = 0; i < length; i++){
+            if(target >= nums[i]){
+                numberOfWays += dpHelper(nums, target - nums[i]);
+            }
+        }
+
+        map.put(target, numberOfWays);
+
+        return numberOfWays;
+
+    }
+
+}
