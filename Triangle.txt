@@ -1,0 +1,51 @@
+public class Solution {
+
+    public int minimumTotal(List<List<Integer>> triangle){
+        if(triangle == null){
+            return 0;
+        }
+        int numberOfRows = triangle.size();
+        if(numberOfRows <= 0){
+            return 0;
+        }
+        int numberOfColumns = triangle.get(numberOfRows - 1).size();
+
+        int[][] dpMatrix = new int[numberOfRows][numberOfColumns];
+
+        for(int i = 0; i < numberOfRows; i++){
+            for(int j = 0; j < numberOfColumns; j++){
+                dpMatrix[i][j] = -1;
+            }
+        }
+
+        int tempSum1 = 0;
+        int tempSum2 = 0;
+        int counter = 0;
+        for(int i = 0; i < numberOfRows; i++){
+            tempSum1 += triangle.get(i).get(0);
+            tempSum2 += triangle.get(i).get(counter);
+            dpMatrix[i][0] = tempSum1;
+            dpMatrix[i][counter] = tempSum2;
+            counter++;
+        }
+
+        for(int i = 0; i < numberOfRows; i++){
+            for(int j = 1; j < i; j++){
+                dpMatrix[i][j] = triangle.get(i).get(j) + Math.min(dpMatrix[i - 1][j - 1], dpMatrix[i - 1][j]);
+            }
+        }
+
+        int minCost = Integer.MAX_VALUE;
+
+        int lastRowIndex = numberOfRows - 1;
+        for(int j = 0; j < numberOfColumns; j++){
+            int cost = dpMatrix[lastRowIndex][j];
+            if(cost < minCost){
+                minCost = cost;
+            }
+        }
+
+        return minCost;
+
+    }
+}
