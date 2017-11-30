@@ -1,0 +1,41 @@
+public class Solution {
+
+    private Map<Integer, Integer> map = new HashMap<>();
+
+    public int coinChange(int[] coins, int amount){
+        if(coins == null){
+            return 0;
+        }
+        if(coins.length == 0){
+            return 0;
+        }
+        int minimumNumberOfCoins = minNoRequiredToForm(amount, coins);
+        if(minimumNumberOfCoins == Integer.MIN_VALUE){
+            return -1;
+        }
+        return minimumNumberOfCoins;
+    }
+
+    private int minNoRequiredToForm(int amount, int[] coins){
+        if(amount == 0){
+            return 0;
+        }
+        if(amount < 0){
+            return Integer.MIN_VALUE;
+        }
+        if(map.get(amount) != null){
+            return map.get(amount);
+        }
+        int minimumCoinsForPreviousStep = Integer.MAX_VALUE;
+        for(int i = 0 ; i < coins.length; i++){
+            int coinsNo = minNoRequiredToForm(amount - coins[i], coins);
+            if(coinsNo < minimumCoinsForPreviousStep && coinsNo != Integer.MIN_VALUE){
+                minimumCoinsForPreviousStep = coinsNo;
+            }
+        }
+        int minNo = minimumCoinsForPreviousStep + 1;
+        map.put(amount, minNo);
+        return minNo;
+    }
+
+}
