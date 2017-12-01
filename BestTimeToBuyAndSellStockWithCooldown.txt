@@ -1,0 +1,35 @@
+public class Solution {
+
+    public int maxProfit(int[] prices){
+        int length = prices.length;
+
+        if(prices == null || length <= 1){
+            return 0;
+        }
+
+        int buy[] = new int[length];
+        int sell[] = new int[length];
+        int hold[] = new int[length];
+        int ignore[] = new int[length];
+        int cooldown[] = new int[length];
+
+        buy[0] = 0 - prices[0];
+        sell[0] = 0;
+        hold[0] = 0 - prices[0];
+        ignore[0] = 0;
+        cooldown[0] = 0;
+
+        for(int i = 1; i < length; i++){
+            buy[i] = Math.max(ignore[i - 1], cooldown[i - 1]) - prices[i];
+            sell[i] = Math.max(buy[i - 1], hold[i - 1]) + prices[i];
+            hold[i] = Math.max(buy[i - 1], hold[i - 1]);
+            ignore[i] = Math.max(ignore[i - 1], cooldown[i - 1]);
+            cooldown[i] = sell[i - 1];
+        }
+
+        int maximumProfit = Math.max(Math.max(ignore[length - 1], sell[length - 1]), cooldown[length - 1]);
+        return maximumProfit;
+
+    }
+
+}
