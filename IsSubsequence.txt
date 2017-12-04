@@ -1,0 +1,37 @@
+public class Solution {
+
+    public boolean isSubsequence(String s, String t){
+        if(s == null || t == null){
+            return false;
+        }
+
+        // Have to take a look at the empty strings case.
+
+        int length1 = s.length();
+        int length2 = t.length();
+
+        boolean[][] dpMatrix = new boolean[length1 + 1][length2 + 1];
+
+        // This is because an empty string is a subsequence of everything(provided not null ofcourse!)
+        for(int j = 0; j <= length2; j++){
+            dpMatrix[0][j] = true;
+        }
+
+        for(int i = 1; i <= length1; i++){
+            for(int j = 1; j <= length2; j++){
+                if(s.charAt(i - 1) == t.charAt(j - 1)){
+                    dpMatrix[i][j] = dpMatrix[i - 1][j - 1];
+                }
+                else{
+                    dpMatrix[i][j] = dpMatrix[i - 1][j] && dpMatrix[i][j - 1];
+                }
+                // Just for debugging purposes!
+                //System.out.println("(" + i + ", " + j + ")" + "->" + dpMatrix[i][j]);
+            }
+        }
+
+        // empty string case would be automatically handled here.
+        return dpMatrix[length1][length2];
+    }
+
+}
