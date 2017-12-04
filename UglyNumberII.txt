@@ -1,0 +1,50 @@
+class Solution {
+    public int nthUglyNumber(int n) {
+        // I am assuming the input is not senseless i.e. >= 1 always as I do not know what to return then.
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        int twoIndex = 1;
+        int threeIndex = 1;
+        int fiveIndex = 1;
+        for(int i = 2; i <= n; i++){
+            if(dp[twoIndex] * 2 <= dp[threeIndex] * 3){ 
+                if(dp[twoIndex] * 2 <= dp[fiveIndex] * 5){
+                    dp[i] = dp[twoIndex] * 2;
+                    if(dp[twoIndex] * 2 == dp[threeIndex] * 3){
+                        threeIndex++;
+                    }
+                    if(dp[twoIndex] * 2 == dp[fiveIndex] * 5){
+                        fiveIndex++;
+                    }
+                    twoIndex++;
+                }
+                else{// *5 is the smallest
+                    dp[i] = dp[fiveIndex] * 5;
+                    // No need for the following comparisions. They are redundant comparisions.
+                    // if(dp[fiveIndex] * 5 == dp[threeIndex] * 3){
+                    //     threeIndex++;
+                    // }
+                    // if(dp[fiveIndex] * 5 == dp[twoIndex] * 2){
+                    //     twoIndex++;
+                    // }
+                    fiveIndex++; 
+                }
+            }
+            else{ // If we have reached here then clearly *3 is strictly less than *2
+                if(dp[threeIndex] * 3 <= dp[fiveIndex] * 5){
+                    dp[i] = dp[threeIndex] * 3;
+                    if(dp[threeIndex] * 3 == dp[fiveIndex] * 5){
+                        fiveIndex++;
+                    }
+                    threeIndex++;
+                }
+                else{ //  *5 is the smallest strictly.
+                    dp[i] = dp[fiveIndex] * 5;
+                    fiveIndex++;
+                }
+            }
+        }
+        return dp[n];
+        
+    }
+}
