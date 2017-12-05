@@ -1,0 +1,27 @@
+class Solution {
+    public int minDistance(String word1, String word2) {
+        // I am hoping that the given words are not null as solving that would be senseless according to me.
+        int length1 = word1.length();
+        int length2 = word2.length();
+        int[][] dpMatrix = new int[length1 + 1][length2 + 1];
+        
+        for(int j = 0; j <= length2; j++){
+            dpMatrix[0][j] = j;
+        }
+        
+        for(int i = 1; i <= length1; i++){
+            dpMatrix[i][0] = i;
+        }
+        
+        for(int i = 1; i <= length1; i++){
+            for(int j = 1; j <= length2; j++){
+                if(word1.charAt(i - 1) == word2.charAt(j - 1)){
+                    dpMatrix[i][j] = dpMatrix[i - 1][j - 1];
+                }else{
+                    dpMatrix[i][j] = Math.min(Math.min(dpMatrix[i - 1][j], dpMatrix[i][j - 1]), dpMatrix[i - 1][j - 1]) + 1;
+                }
+            }
+        }
+        return dpMatrix[length1][length2];
+    }
+}
