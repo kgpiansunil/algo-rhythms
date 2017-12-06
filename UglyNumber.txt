@@ -1,0 +1,46 @@
+class Solution {
+    // For a number to be ugly we should be able to write it in the format 2^x . 3^y. 5^z where x, y and z are the highest powers.
+    public boolean isUgly(int num) {
+        if(num <= 0){
+            return false;
+        }
+  
+        // if we reach here value of num >= 1
+        int highest2PowerFactor = findHighest2PowerFactor(num);
+        //System.out.println(highest2PowerFactor);
+        int highest3PowerFactor = findHighest3PowerFactor(num);
+        //System.out.println(highest3PowerFactor);
+        int highest5PowerFactor = findHighest5PowerFactor(num);
+        //System.out.println(highest5PowerFactor);
+        
+        if(num == highest2PowerFactor * highest3PowerFactor * highest5PowerFactor){
+            return true;
+        }
+        return false;
+    }
+    
+    private int findHighest2PowerFactor(int candidate){
+        int highest2PowerFactor = 1; // 2^0
+        while(candidate % highest2PowerFactor == 0){
+            highest2PowerFactor *= 2;
+            //System.out.println(candidate + "%" + highest2PowerFactor/2 + "==" + "0");
+        }
+        return highest2PowerFactor/2;
+    }
+    
+     private int findHighest3PowerFactor(int candidate){
+        int highest3PowerFactor = 1; // 3^0
+        while(candidate % highest3PowerFactor == 0){
+            highest3PowerFactor *= 3;
+        }
+        return highest3PowerFactor/3;
+    }
+    
+     private int findHighest5PowerFactor(int candidate){
+        int highest5PowerFactor = 1; // 5^0
+        while(candidate % highest5PowerFactor == 0){
+            highest5PowerFactor *= 5;
+        }
+        return highest5PowerFactor/5;
+    }
+}
