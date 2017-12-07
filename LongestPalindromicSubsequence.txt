@@ -1,0 +1,51 @@
+class Solution {
+    // we have to find the length of the longest palindromic subsequence in s.
+    public int longestPalindromeSubseq(String s) {
+        
+        if(s == null){
+            return 0;
+        }
+        
+        int length = s.length(); // it has to be atleast 1 here as we have checked for the empty strings.
+        
+        if(length == 0){ // for an empty string
+            return 0;
+        }
+        
+        int[][] dpMatrix = new int[length][length];
+        
+        // filling the diagonal elements with 1. Base case for smooth running ahead.
+        for(int i = 0; i < length; i++){
+            dpMatrix[i][i] = 1;
+        }
+        
+        // filling the second diagonal too. 
+        for(int j = 1; j < length; j++){
+            if(s.charAt(j - 1) == s.charAt(j)){
+                dpMatrix[j - 1][j] = 2;
+            }
+            else{
+                dpMatrix[j - 1][j] = 1;
+            }
+        }
+        
+        for(int i = 0, j = 2; j < length; j++){ // for every diagonal I am trying to fill in.
+            int columnCounter = j;
+            int rowCounter = i;
+            while(rowCounter < length && columnCounter < length){ // If any of these exceeds the limit then we are done bro.
+                if(s.charAt(rowCounter) == s.charAt(columnCounter)){
+                    dpMatrix[rowCounter][columnCounter] = dpMatrix[rowCounter + 1][columnCounter - 1] + 2;
+                }
+                else{
+                    dpMatrix[rowCounter][columnCounter] = Math.max(dpMatrix[rowCounter + 1][columnCounter],
+                                                                   dpMatrix[rowCounter][columnCounter - 1]);
+                }
+                columnCounter++;
+                rowCounter++;
+            }
+        }
+        
+        return dpMatrix[0][length - 1];
+        
+    }
+}
