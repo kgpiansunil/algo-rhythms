@@ -1,0 +1,33 @@
+class Solution {
+    // I will go top down here and use recursion with memoization here as it is quite intuitive and natural to think.
+    // I guess the time complexity wont get affected even if we use bottom thing as this much of the work has to be done.
+    private int D = 1000000007;
+    public int findPaths(int m, int n, int N, int i, int j) {
+        // we cant have empty matrix input and even null as it is specified in the constraints.
+        int[][][] dpCube = new int[m][n][N + 1]; // for memoization basically.
+        for(int[][] matrix: dpCube){
+            for(int[] arr: matrix){
+                Arrays.fill(arr, -1); // just an identifier for untouched. It must be clear that we cant use 0 here as 
+                                      // there are points (i, j) and a number of steps N associated with them such that they dont lead out                                         // of boundary. So this where we will store 0.
+            }
+        }
+        return findPathsHelper(m, n, N, i, j, dpCube);
+    }
+    
+    private int findPathsHelper(int m, int n, int N, int i, int j, int[][][] dpCube){
+        if(i >= m || j >= n || i < 0 || j < 0){ // if we have reached out of bounds then return 1 as this must be contributing 1 in the total
+                                                // number of ways.                                                          
+            return 1;
+        }
+        if(N == 0){
+            return 0;
+        }
+        if(dpCube[i][j][N] != -1){
+            return dpCube[i][j][N];
+        }
+        int ans = (((findPathsHelper(m, n, N - 1, i + 1, j, dpCube) + findPathsHelper(m, n, N - 1, i, j + 1, dpCube)) % D) + ((findPathsHelper(m, n, N - 1, i - 1, j, dpCube) + findPathsHelper(m, n, N - 1, i, j - 1, dpCube)) % D)) % D;
+        dpCube[i][j][N] = ans;
+        return ans;
+        
+    }
+}
