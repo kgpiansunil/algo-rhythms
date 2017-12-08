@@ -1,0 +1,73 @@
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // they are non empty for sure and hence their sizes are atleast 1.
+        ListNode ansListHead = new ListNode(-1);
+        
+        ListNode tempAns = ansListHead;
+        ListNode temp1 = l1;
+        ListNode temp2 = l2;
+        
+        ListNode prevTempAns = null;
+        
+        int carryOver = 0;
+        while(temp1 != null && temp2 != null){
+            //System.out.println("inside first while");
+            int addition = carryOver + temp1.val + temp2.val;
+            if(addition < 10){
+                tempAns.val = addition;
+                carryOver = 0;
+            }
+            else{
+                carryOver = addition/10;
+                tempAns.val = addition%10;
+            }
+            temp1 = temp1.next;
+            temp2 = temp2.next;
+            tempAns.next = new ListNode(-1);
+            prevTempAns = tempAns;
+            tempAns = tempAns.next;
+        }
+        if(temp2 == null){
+            while(temp1 != null){
+                int addition = temp1.val + carryOver;
+                if(addition < 10){
+                    tempAns.val = addition;
+                    carryOver = 0;
+                }
+                else{
+                    carryOver = addition/10;
+                    tempAns.val = addition%10;
+                }
+                temp1 = temp1.next;
+                tempAns.next = new ListNode(-1);
+                prevTempAns = tempAns;
+                tempAns = tempAns.next;
+            }
+        }
+        else{
+            while(temp2 != null){
+                int addition = temp2.val + carryOver;
+                if(addition < 10){
+                    tempAns.val = addition;
+                    carryOver = 0;
+                }
+                else{
+                    carryOver = addition/10;
+                    tempAns.val = addition%10;
+                }
+                temp2 = temp2.next;
+                tempAns.next = new ListNode(-1);
+                prevTempAns = tempAns;
+                tempAns = tempAns.next;
+            }
+        }
+        if(carryOver != 0){
+            tempAns.val = carryOver;
+        }
+        else{
+            prevTempAns.next = null;
+        }
+        
+        return ansListHead;
+    }
+}
