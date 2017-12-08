@@ -1,0 +1,50 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        if(s == null || wordDict == null){
+            return false;
+        }
+        
+        int length = s.length(); 
+        int lengthOfDict = wordDict.size(); 
+        
+        if(length == 0 || lengthOfDict == 0){
+            return false; // I am assumming that any non-sensical thing is not allowed.
+        }
+        
+        // If we have reached here then it means that their lengths are atleast 1.
+        boolean[] dp = new boolean[length]; // every index here corresponds to the string s index.
+        
+        if(isPresentInDict(Character.toString(s.charAt(0)), wordDict)){
+            dp[0] = true; // dp -> [true, false]
+        }
+        else{
+            dp[0] = false;
+        }
+        
+        for(int i = 1; i < length; i++){
+            if(isPresentInDict(s.substring(0, i + 1), wordDict)){
+                dp[i] = true;
+                continue;
+            }
+            for(int j = i; j >= 1; j--){
+                if(isPresentInDict(s.substring(j, i + 1), wordDict) && dp[j - 1]){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        
+        return dp[length - 1];
+    }
+    
+    // Helper method
+    private boolean isPresentInDict(String s, List<String> wordDict){
+        for(String x: wordDict){
+            if(x.equals(s)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+}
