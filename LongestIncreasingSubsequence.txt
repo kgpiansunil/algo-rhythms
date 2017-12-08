@@ -1,0 +1,37 @@
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if(nums == null){
+            return 0;
+        }
+        int length = nums.length;
+        if(length == 0){
+            return 0;
+        }
+        // If we have reached this point the nums must contain at least one element.
+        
+        int[] dp = new int[length];
+        dp[0] = 1; // no fear of a compile time error. this is because we have ensured till this point that the length of dp is                                // atleast 1
+        
+        for(int i = 1; i < length; i++){
+            int maxLengthAtI = 1;  // At any i it is atleast 1. We can very well say this at the start.
+            for(int j = i - 1; j >= 0; j--){ // go till 0 from one behind.
+                if(nums[i] > nums[j]){ // Dont take equality here. It means strictly increasing.
+                    if(maxLengthAtI < dp[j] + 1){
+                        maxLengthAtI = dp[j] + 1;
+                    }
+                }
+            }
+            dp[i] = maxLengthAtI;
+        }
+        
+        int ans = 1; // It is atleast 1 as the length of the array is atleast 1 we know that for sure.
+        for(int i = 0; i < length; i++){
+            if(ans < dp[i]){
+                ans = dp[i];
+            }
+        }
+        
+        return ans;
+    }
+    
+}
