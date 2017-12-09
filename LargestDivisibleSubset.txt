@@ -1,0 +1,50 @@
+class Solution {
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        if(nums == null){ // absurd input.
+            return null;
+        }
+        int length = nums.length;
+        if(length == 0){
+            return new ArrayList<Integer>();
+        }
+        // if we have reached here we have ensured that the length of the nums is atleast 1.
+        Arrays.sort(nums); // this is necessary and is the most critical step. Rest is nothing but LIS.
+        int[] dp = new int[length];
+        int[] dpTracker = new int[length];
+        
+        dp[0] = 1; //trivially.
+        dpTracker[0] = -1; // its parent is nothing. We have to keep track of the actual list here and hence we are using parents.
+        
+        for(int i = 1; i < length; i++){
+            int maxLengthEndingAtI = 1;
+            int parentOfI = -1;
+            for(int j = i - 1; j >= 0; j--){
+                if(nums[i] % nums[j] == 0){
+                  if(maxLengthEndingAtI < dp[j] + 1){
+                        maxLengthEndingAtI = dp[j] + 1;
+                        parentOfI = j;
+                    }   
+                }
+            }
+            dp[i] = maxLengthEndingAtI;
+            dpTracker[i] = parentOfI;
+        }
+        
+        int lastIndexOfMaxSubset = -1;
+        int maxLengthOfDivisibleSubset = 0;
+        for(int i = 0; i < length; i++){
+            if(maxLengthOfDivisibleSubset < dp[i]){
+                maxLengthOfDivisibleSubset = dp[i];
+                lastIndexOfMaxSubset = i;
+            }
+        }
+        
+        int tempIndex = lastIndexOfMaxSubset;
+        List<Integer> ansList = new ArrayList<Integer>();
+        while(tempIndex != -1){
+            ansList.add(nums[tempIndex]);
+            tempIndex = dpTracker[tempIndex];
+        }
+        return ansList;
+    }
+}
