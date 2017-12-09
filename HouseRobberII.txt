@@ -1,0 +1,64 @@
+class Solution {
+    public int rob(int[] nums) {
+        if(nums == null){  // absurd input.
+            return 0;
+        }
+        int length = nums.length;
+        if(length == 0){
+            return 0;
+        }
+        if(length == 1){
+            return nums[0];
+        }
+        if(length == 2){
+            return Math.max(nums[0], nums[1]);
+        }
+        // if we have reached here it means that our length is atleast 3.
+        int[] arr1 = new int[length - 1];
+        int[] arr2 = new int[length - 1];
+        int[] arr3 = new int[length - 2];
+        
+        for(int i = 1; i < length; i++){
+            arr1[i - 1] = nums[i];
+        }
+        
+        for(int i = length - 2; i >= 0; i--){
+            arr2[length - 2 - i] = nums[i];
+        }
+        
+        for(int i = 1; i < length - 1; i++){
+            arr3[i - 1] = nums[i];
+        }
+        
+        int candidate1Length = robGeneral(arr1);
+        int candidate2Length = robGeneral(arr2);
+        int candidate3Length = robGeneral(arr3);
+        
+        int maxRobbed = Math.max(Math.max(candidate1Length, candidate2Length), candidate3Length);
+            
+        return maxRobbed;
+        
+    }
+    
+    // helper house robber I function
+    private int robGeneral(int[] nums){
+        int length = nums.length;
+        if(length == 0){
+            return 0;
+        }
+        // if we have reached till this point it means that out length is atleast 1.
+        int[] dp = new int[length];
+        dp[0] = nums[0]; // wouldnt be a compile time error as we have ensured above that the length is at least 1.
+        if(length >= 2){
+            dp[1] = Math.max(nums[0], nums[1]); // as both of them cannot be robbed simultaneously.
+        }
+        else{
+            return dp[0];
+        }
+        for(int i = 2; i < length; i++){
+            dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+        }
+        return dp[length - 1];
+    }
+    
+}
