@@ -1,0 +1,43 @@
+class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        if(obstacleGrid == null){ // absurd input
+            return 0;
+        }
+        int numberOfRows = obstacleGrid.length;
+        if(numberOfRows == 0){
+            return 0;
+        }
+        int numberOfColumns = obstacleGrid[0].length; // this cant be a compile time error because we have ensured till this point that the                                                         // number of rows is atleast 1
+        if(numberOfColumns == 0){
+            return 0;
+        }
+        
+        int[][] dpMatrix = new int[numberOfRows][numberOfColumns]; 
+        if(obstacleGrid[0][0] != 1){
+            dpMatrix[0][0] = 1; // it can't be a compile time error for sure.
+        }
+        
+        for(int j = 1; j < numberOfColumns; j++){
+            if(obstacleGrid[0][j] != 1){ // if it is not a barrier then only do the things for it else let it be 0.
+                dpMatrix[0][j] = dpMatrix[0][j - 1];
+            }
+        }
+        
+        for(int i = 1; i < numberOfRows; i++){
+            if(obstacleGrid[i][0] != 1){ // if it is not a barrier then only do the things for it otherwise let it be 0. 
+                dpMatrix[i][0] = dpMatrix[i - 1][0];
+            }
+        }
+        
+        for(int i = 1; i < numberOfRows; i++){
+            for(int j = 1; j < numberOfColumns; j++){
+                if(obstacleGrid[i][j] != 1){ // it is a free space and can be moved else let it be 0.
+                    dpMatrix[i][j] = dpMatrix[i][j - 1] + dpMatrix[i - 1][j];
+                }
+            }
+        }
+        
+        return dpMatrix[numberOfRows - 1][numberOfColumns - 1];
+        
+    }
+}
