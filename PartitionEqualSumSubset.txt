@@ -1,0 +1,49 @@
+class Solution {
+    public boolean canPartition(int[] nums) {
+        // we are actually given a non-empty array consisting of positive integers only.
+        int length = nums.length; // clearly this has to be atleast 1.
+        int netSum = 0;
+        for(int i = 0; i < length; i++){
+            netSum += nums[i];
+        }
+        if(netSum % 2 != 0){ // if the sum is not divisible by 2 then at any cost we cant partition the sum into 2 as the values are integers                              // in our array.
+            return false;
+        }
+        int[][] dpMemo = new int[length][netSum/2 + 1];
+        // in this array 1 -> true 0 -> false -1 -> we have not checked this element yet.
+        for(int[] arr: dpMemo){
+            Arrays.fill(arr, -1); // we dont know about anything at the start.
+        }
+        boolean canPartition = canPartitionHelper(nums, length - 1, netSum / 2, dpMemo);
+        return canPartition;
+    }
+    
+    // this function determines if we can choose some elements in nums till an index i only whose sum is sum.
+    private boolean canPartitionHelper(int[] nums, int index, int sum, int[][] dpMemo){
+        //System.out.println(index + " " + sum + " ");
+        if(sum < 0){
+            return false; // we only have positive integers with us. This is the reason why we are given positive integers else we couldn't                             // terminate so easily.
+        }
+        if(sum == 0){
+            return true; // this is actually the base case to prevent runtim exceptions
+        }
+        if(index < 0){ // it means that we have failed to make the required sum
+            return false;
+        }
+        if(dpMemo[index][sum] != -1){
+            if(dpMemo[index][sum] == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        boolean canWeMake = canPartitionHelper(nums, index - 1, sum - nums[index], dpMemo) || canPartitionHelper(nums, index - 1, sum, dpMemo);
+        if(canWeMake){
+            dpMemo[index][sum] = 1;
+        }
+        else{
+            dpMemo[index][sum] = 0;
+        }
+        return canWeMake;
+    }
+}
