@@ -1,0 +1,46 @@
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        if(pairs == null){ // absurd input.
+            return 0;
+        }
+        int length = pairs.length;
+        if(length == 0){
+            return 0;
+        }
+        // If we have reached here then it means that our length is at least 1.
+        int[] dp = new int[length];
+        
+        //perform the necessay sorting(based on the first element) as it wouldn't matter how the input is written. We can very well use LIS concept then/
+        for(int i = pairs.length - 1; i >= 1;  i--){
+            for(int j = 0; j < i; j++){
+                if(pairs[j][0] > pairs[j + 1][0]){
+                    int[] temp = pairs[j + 1];
+                    pairs[j + 1] = pairs[j];
+                    pairs[j] = temp;
+                }
+            }
+        }
+        
+        dp[0] = 1; // maximum length pair chain for all the sequences ending at 0(and starting at 0 ofcourse) is 1.
+        for(int i = 1; i < length; i++){
+            int maxPairLengthEndingAtI = 1; // it is 1 in the worst case.
+            for(int j = i - 1; j >= 0; j--){
+                if(pairs[j][1] < pairs[i][0]){
+                    if(maxPairLengthEndingAtI < dp[j] + 1){
+                        maxPairLengthEndingAtI = dp[j] + 1;
+                    }
+                }
+            }
+            dp[i] = maxPairLengthEndingAtI;
+        }
+        
+        int maxLengthOverall = 1; // We know for sure that our input consists of atleast one pair and so in the worst case this is true.
+        for(int i = 0; i < length; i++){
+            if(maxLengthOverall < dp[i]){
+                maxLengthOverall = dp[i];
+            }
+        }
+        
+        return maxLengthOverall;
+    }
+}
