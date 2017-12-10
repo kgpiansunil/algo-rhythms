@@ -1,0 +1,12 @@
+class Solution {
+    public int numTrees(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1; // the length is 1 even when the input is 0 and therefore we dont need to worry about compile time errors at this step.
+        for(int i = 1; i <= n; i++){
+            for(int start = 0, end = i - 1; start <= i - 1 && end >= 0; start++, end--){
+                dp[i] += dp[start] * dp[end];
+            }
+        }
+        return dp[n];
+    }
+}
