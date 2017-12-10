@@ -1,0 +1,68 @@
+class Solution {
+    public int findNumberOfLIS(int[] nums) {
+        if(nums == null){ // absurd input.
+            return 0;
+        }
+        int length = nums.length;
+        if(length == 0){
+            return 0;
+        }
+        // If we have reached here then it means the length is at least 1.
+        int[] dp = new int[length];
+        int[] countDp = new int[length];
+        dp[0] = 1;
+        countDp[0] = 1;
+        
+        for(int i = 1; i < length; i++){
+            int maxLengthEndingAtI = 1;
+            for(int j = i - 1; j >= 0; j--){
+                if(nums[i] > nums[j]){
+                    if(maxLengthEndingAtI < dp[j] + 1){
+                        maxLengthEndingAtI = dp[j] + 1;
+                    }
+                }
+                dp[i] = maxLengthEndingAtI;
+            }
+            
+            if(maxLengthEndingAtI == 1){
+                countDp[i] = 1;
+            }
+            else{
+                for(int j = i - 1; j >= 0; j--){
+                    if(nums[i] > nums[j]){
+                         if(maxLengthEndingAtI == dp[j] + 1){
+                            countDp[i] += countDp[j];
+                        }
+                    }
+                }
+            }
+        }
+        
+        int maxLength = 1;
+        for(int i = 0; i < length; i++){
+            if(maxLength < dp[i]){
+                maxLength = dp[i];
+            }
+        }
+        
+        //System.out.println(maxLength);
+//         for(int i = 0; i < length; i++){
+//             System.out.println(dp[i]);
+//         }
+        
+//         System.out.println("---");
+        
+//         for(int i = 0; i < length; i++){
+//             System.out.println(countDp[i]);
+//         }
+        
+        int numberOfLongestIncreasingSubsequences = 0;
+        for(int i = 0; i < length; i++){
+            if(dp[i] == maxLength){
+                numberOfLongestIncreasingSubsequences += countDp[i];
+            }
+        }
+        
+        return numberOfLongestIncreasingSubsequences;
+    }
+}
