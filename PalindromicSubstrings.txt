@@ -1,0 +1,42 @@
+class Solution {
+    public int countSubstrings(String s) {
+        if(s == null){ // absurd input.
+            return 0;
+        }
+        int length = s.length();
+        if(length == 0){ // I dont see any palindromes present in an empty string.
+            return 0;
+        }
+        // If we have reached this point this means that our string length is at least 1.
+        boolean[][] dpMatrix = new boolean[length][length];
+        int numberOfPalindromes = 0;
+        // filling up the first diagonal element as our base case.
+        for(int i = 0; i < length; i++){
+            dpMatrix[i][i] = true; // every string of length 1 is in itself a palindrome.
+            numberOfPalindromes++;
+        }
+        
+        //filling up the  second 
+        for(int i = 0, j = 1; i < length && j < length; i++, j++){
+            if(s.charAt(i) == s.charAt(j)){
+                dpMatrix[i][j] = true;
+                numberOfPalindromes++;
+            }
+            // else let it be false i.e.e no need to say that explicitly.
+        }
+        // Now filling u
+        for(int k = 2; k < length; k++){
+            for(int i = 0, j = i + k; i < length && j < length; i++, j++){
+                if(s.charAt(i) == s.charAt(j) && dpMatrix[i + 1][j - 1]){
+                    dpMatrix[i][j] = true;
+                    numberOfPalindromes++;
+                }
+                else{
+                    // nothing to do as it is false only (the constructor default things can be useful sometimes).
+                }
+            }    
+        }
+        return numberOfPalindromes;
+        
+    }
+}
