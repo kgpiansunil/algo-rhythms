@@ -1,0 +1,17 @@
+class Solution {
+    // This function checks if the two trees having the root as p and q respectively are equivalent or not accordingly returns true or false.
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        // If both p and q are empty then they are trivially equivalent.
+        if(p == null && q == null){ 
+            return true;
+        }
+        // If they are not empty then this has to be true for their equivalence.
+        if(p != null && q != null){
+            if(p.val == q.val){
+                return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+            }
+        }
+        // all other things imply that the trees are not equivalent.
+        return false;
+    }
+}
