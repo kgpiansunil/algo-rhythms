@@ -1,0 +1,18 @@
+class Solution {
+    // this function trims a binary search tree according to the given range and returns the pointer to the root of the tree.
+    public TreeNode trimBST(TreeNode root, int L, int R) {
+        if(root == null){ // we may reach upto null and trim of the null is simply null.
+            return null;
+        }
+        if(root.val > R){ // If the value lies to the right of the range then the present node has no meaning and trim of the whole tree(root                           // pointer) is equal to the trim of the left child(root pointer) of this present node.
+            return trimBST(root.left, L, R);
+        }
+        if(root.val < L){
+            return trimBST(root.right, L, R); 
+        }
+        // If we are in the range then the present value has to be in the trimmed tree and then further left and right trees have to be               // trimmed
+        root.left = trimBST(root.left, L, R);
+        root.right = trimBST(root.right, L, R);
+        return root; // Now return the actual root for the trimmed tree.
+    }
+}
