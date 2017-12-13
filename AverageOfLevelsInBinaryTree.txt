@@ -1,0 +1,26 @@
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> ansList = new ArrayList<Double>();
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.add(root); 
+        while(!queue.isEmpty()){
+            Queue<TreeNode> helperQueue = new LinkedList<TreeNode>();
+            long count = 0; 
+            long sum = 0; // writing long here is important otherwise will lead to errors.
+            while(!queue.isEmpty()){
+                TreeNode node = queue.remove(); // empty the queue and add all the nodes that come out of the queue and count them as well.
+                sum += node.val; 
+                count++;
+                if(node.left != null){// after removing each element of the queue enqueue its children into another queue called as                                                 // helperQueue
+                    helperQueue.add(node.left);
+                }        
+                if(node.right != null){
+                    helperQueue.add(node.right);
+                }
+            }
+            queue = helperQueue; // asssign queue to the helperQueue(the emptied out old queue will be garbage collected)
+            ansList.add(sum * 1.0 / count);
+        }
+        return ansList;
+    }
+}
