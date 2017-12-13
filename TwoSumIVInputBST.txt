@@ -1,0 +1,20 @@
+class Solution {
+    public boolean findTarget(TreeNode root, int k) {
+        Set<Integer> set = new HashSet<Integer>();
+        return find(root, k, set);
+    }
+    
+    private boolean find(TreeNode root, int k, Set<Integer> set){
+        if(root == null){ // If we come across a null tree then definitely we are not able to find the key in the given tree as it is empty                             // so we return false here. 
+            return false;
+        }
+        if(set.contains(k - root.val)){ // we have a marked node(visited) node which is a complement of this node to reach a sum of k and                                             // hence immediately at this point we should return true.
+            return true;
+        }
+        
+        set.add(root.val);          // if that is not the case(above statement) we mark this node visited and put it in the set and we are                                      // ready to searc for its(along with other elements in the set ofcourse) complement in the remaining tree.
+        
+        return find(root.left, k, set) || find(root.right, k, set); // if the current node doesn't work return if it either works for the                                                                         // left subtree or it works for the right subtree.
+    }
+    
+}
