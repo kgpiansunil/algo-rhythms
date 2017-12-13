@@ -1,0 +1,21 @@
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){ // inversion of null is essentially and trivially a null tree.
+            return null;
+        }
+        
+        // Inverting a tree is essentially changing the left and the right childs of a tree and then inverting the left and right subtree             // recursively then.
+        
+        // Interchange the left and right childs.
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        
+        // Do the same thing recursively with the left and the right childs.
+        invertTree(root.left);
+        invertTree(root.right);
+        
+        // return the tree ofcourse after the whole inversion of the tree.
+        return root;
+    }
+}
