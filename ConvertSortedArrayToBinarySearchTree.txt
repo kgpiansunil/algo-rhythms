@@ -1,0 +1,26 @@
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if(nums == null){ // we have got nothing to convert to...hence we should return an empty tree.
+            return null; // an empty tree.
+        }
+        int length = nums.length; // it may be possible that the length of the tree is 0. In that case also, we have got nothing to convert                                     // to and hence we should return an empty tree.
+        if(length == 0){
+            return null; // we are returning an empty tree here.
+        }
+        // If we have reached here then it means that our length is at least 1.
+        TreeNode root = converterHelper(nums, 0, length - 1); // this function takes in an input array indices from start to end(sorted array                                                               // ofcourse) and converts it into a tree
+        return root;
+    }
+    
+    private TreeNode converterHelper(int[] nums, int startIndex, int endIndex){
+        if(startIndex > endIndex){ // Base case.
+            return null; // think it in terms of assigning the left and the right child as null.
+        }
+        int middleIndex = (startIndex + endIndex) / 2; // It can act as a perfect partition or not so perfect partition as well.
+        TreeNode node = new TreeNode(nums[middleIndex]);
+        node.left = converterHelper(nums, startIndex, middleIndex - 1); // it would return a tree with the corresponding root of the left                                                                             // half
+        node.right = converterHelper(nums, middleIndex + 1, endIndex); // similarly this one also returns the corresponding root of the right                                                                         // half
+        return node;
+    }
+    
+}
