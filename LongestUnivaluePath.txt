@@ -1,0 +1,26 @@
+class Solution {
+    
+    private int globalLongest = 1;
+    
+    public int longestUnivaluePath(TreeNode root) {
+        int garbageCollectedValueForDebugging = helperFunction(root, -1);
+        return globalLongest - 1;
+    }
+    
+    private int helperFunction(TreeNode node, int parentNodeValue){ 
+        if(node == null){
+            return 0;
+        }
+        int leftReturn = helperFunction(node.left, node.val);
+        int rightReturn = helperFunction(node.right, node.val);
+        if(globalLongest < leftReturn + rightReturn + 1){
+            globalLongest = leftReturn + rightReturn + 1;
+        }
+        if(node.val == parentNodeValue){
+            return Math.max(leftReturn, rightReturn) + 1;
+        }       
+        else{
+            return 0;
+        }
+    }
+}
