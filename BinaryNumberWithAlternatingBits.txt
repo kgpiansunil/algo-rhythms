@@ -1,0 +1,20 @@
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+        Set<Integer> set = new HashSet<Integer>();
+        int sum = 0;
+        int starter = 1;
+        for(int i = 1; i <= 16; i++, starter *= 4){
+            sum += starter;
+            //System.out.println(sum);
+            set.add(sum);
+        }
+        sum = 0;
+        starter = 2;
+        for(int i = 1; i <= 15; i++, starter *= 4){
+            sum += starter;
+            set.add(sum);
+        }
+        set.add(-1431655766); // The one and only negative number with the alternate digits possible.
+        return set.contains(n);
+    }
+}
