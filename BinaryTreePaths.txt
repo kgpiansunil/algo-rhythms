@@ -1,0 +1,23 @@
+class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> paths = new ArrayList<String>();
+        helper(root, "", paths);
+        return paths;
+    }
+    
+    private void helper(TreeNode root, String path, List<String> paths){
+        if(root == null){
+            return;
+        }
+        if(root.left == null && root.right == null){ // It means that we have reached the leaf and we should add the final element to our                                                          // corresponding path.
+            paths.add(path + root.val);
+            return;
+        }
+        if(root.left != null){
+            helper(root.left, path + root.val + "->", paths);
+        }
+        if(root.right != null){
+            helper(root.right, path + root.val + "->", paths);
+        }
+    } 
+}
