@@ -1,0 +1,28 @@
+class Solution {
+    
+    private int sumOfLeftLeaves = 0;
+    
+    public int sumOfLeftLeaves(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        // We have ensured that the root is not the leaf and we can safely pass this thing to our function.
+        helper(root, false, false); // It is not to be behaved as a leaf. Mind it!
+        return sumOfLeftLeaves;
+    }
+    
+    private void helper(TreeNode node, boolean hasRightParent, boolean hasLeftParent){
+        if(node.left == null && node.right == null){
+            if(hasRightParent){ // If the parent is Right then it is a left leaf. Be clear in this thing.
+                sumOfLeftLeaves += node.val;
+            }
+            return;
+        }
+        if(node.left != null){ // It means that we can still go towards the left i.e. there is a scope available.
+            helper(node.left, true, false);
+        }
+        if(node.right != null){ // It means that we can still go towards the right i.e. there is a scope available.
+            helper(node.right, false, true);
+        }
+    }
+}
