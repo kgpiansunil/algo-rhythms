@@ -1,0 +1,42 @@
+class Solution {
+    public boolean canCross(int[] stones) {
+        if(stones == null){ // the trivial case.
+            return false;
+        }
+        int length = stones.length;
+        if(length == 0){
+            return false;
+        }
+        if(length == 1){
+            return true;
+        }
+        // If we have reached here it means that our length is atleast two.
+        HashMap<Integer, HashSet<Integer>> map = new HashMap(length); // we store the state variables of our problem here i.e. for a 
+                                                                // stone(distance not index) we store from where all we can go from here i.e.
+                                                                // what all steps can we take from here. And note that we are only concerned
+                                                                // with the stones already present in the array else it could greatly affect
+                                                                // our storage capacity.
+        for(int i = 0; i < length; i++){
+            map.put(stones[i], new HashSet<Integer>());         // adding all the relevant keys(corresponding distances of the stones) that                                                                   // we care about.
+        }
+        map.get(0).add(1);
+        for(int i = 0; i <= length - 2; i++){                   // for every possible key we try to affect the other things.
+            int stoneKeyOrDistance = stones[i];
+            for(int stepThatWeCanTake : map.get(stoneKeyOrDistance)){ // This approach is cool(for each) when iterating through a collection.
+                int affectedStoneDistance = stepThatWeCanTake + stoneKeyOrDistance;
+                if(affectedStoneDistance == stones[length - 1]){
+                    return true;                                // it means we can affect this or in other words we can reach the very last 
+                                                                // stone and this is all we wanted.
+                }
+                if(map.containsKey(affectedStoneDistance)){    // basically it is a way of checking if it is a relevant stone.
+                    map.get(affectedStoneDistance).add(stepThatWeCanTake);
+                    if(stepThatWeCanTake - 1 > 0){
+                        map.get(affectedStoneDistance).add(stepThatWeCanTake - 1);
+                    }
+                    map.get(affectedStoneDistance).add(stepThatWeCanTake + 1);
+                }
+            }
+        }
+        return false;
+    }
+}
