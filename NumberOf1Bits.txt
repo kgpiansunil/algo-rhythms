@@ -14,7 +14,7 @@ public class Solution {
     private int hammingWeightHelper(long n){
         int numberOf1s = 0;
         long number = n;
-        for(long i = (long)Math.pow(2, 62); i >= 1; i = i / 2){ // So it starts from 2 power 30 and in every interation its halves itself                                                                     // till being equal to 1.
+        for(long i = (long)Math.pow(2, 62); i >= 1; i = i / 2){ // So it starts from 2 power 62 and in every interation its halves itself                                                                     // till being equal to 1.
             if(i <= number){
                 number -= i;
                 numberOf1s++;
