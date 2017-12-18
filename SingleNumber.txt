@@ -1,0 +1,25 @@
+class Solution {
+    // Another simpler way(in terms of writing code) is to sort the given numbers initially and then its obvious how to proceed ahead.
+    // Btw sorting the given input should be the first thing that should come to your mind while dealing with array type questions.
+    public int singleNumber(int[] nums) {
+        // I am assuming that the input comes out to be sensible here.
+        int length = nums.length;
+        Set<Integer> set = new HashSet<Integer>();
+        int sum1 = 0;
+        for(int i = 0; i < length; i++){
+            set.add(nums[i]);
+            sum1 += nums[i];
+        }
+        
+        System.out.println(sum1);
+        
+        int sum2 = 0;
+        for(int element: set){
+            sum2 += element;
+        }
+        
+        System.out.println(sum2);
+        
+        return ((sum2 * 2) - (sum1));
+    }
+}
