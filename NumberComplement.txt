@@ -1,0 +1,18 @@
+class Solution {
+    public int findComplement(int num) {
+        String bits = Integer.toBinaryString(num); // Useful and relvant bits would be stored as a string with us.
+        StringBuilder workableBits = new StringBuilder(bits);
+        StringBuilder complementBits = new StringBuilder();
+        for(int i = 0; i < workableBits.length(); i++){
+            if(workableBits.charAt(i) == '1'){ // There can only be these two possibilities.
+                complementBits.append('0');
+            }
+            else{
+                complementBits.append('1');
+            }
+        }
+        // System.out.println(complementBits.toString());
+        int complementNum = Integer.parseInt(complementBits.toString(), 2);
+        return complementNum;
+    }
+}
