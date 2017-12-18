@@ -1,0 +1,25 @@
+// lowest common ancestor of two nodes a and b rooted at a node r is basically ->
+// draw the path from the node a to the root r and similarly draw a path from the node b to the root r. All these above nodes of both of them
+// are basically their ancestors. Now we have to find the common ancestor of both of them and that too the lowest one. Now its easy to 
+// imagine that these paths will definitely intersect somewhere(atleast at the end at the root). And where they first intersect is our 
+// required lowest ancestor which is common to both of them. Wait but this is actually the node where the branching starts i.e. at this node
+// definitely one of the node a(or b) has to be bigger and the other one has to be smaller. Now if we go above this node all the nodes that
+// come in our path are ancestors for sure but not the lowest. And all these other nodes that come in our path can either be bigger than both 
+// of the nodes a and b or smaller than both of the nodes a and b.
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null){ // just to make sure things dont go wrong when shitty input is given.
+            return null;
+        }
+        if((root.val >= p.val && root.val <= q.val) || (root.val >= q.val && root.val <= p.val)){ // equality holds for a reason here.
+            return root;
+        }
+        else if(root.val > p.val && root.val > q.val){
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        else{   // only one case remains.
+            return lowestCommonAncestor(root.right, p, q);
+        }
+    }
+}
