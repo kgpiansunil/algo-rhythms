@@ -1,0 +1,59 @@
+class Solution {
+    public int findSecondMinimumValue(TreeNode root) {
+        if(root == null){   // If the root is null that is the given tree is empty then we have to return -1.
+            return -1;
+        }
+        // If we have reached here we have ensured that our tree is non-empty and contains atleast one node.
+        int secondMinimum = helper(root);
+        return secondMinimum;
+    }
+    
+    private int helper(TreeNode node){  // Either the node is a leaf or has both the children. There are always two possible cases here.
+        if(node.left == null || node.right == null){ // Leaf
+            return -1;
+        }
+        // else we have both the children.
+        // now they can have uunequal values in which case our problem is solved.
+        if(node.left.val != node.right.val){
+            if(node.left.val < node.right.val){
+                int leftTreeMin = helper(node.left);
+                if(leftTreeMin == -1){
+                    return node.right.val;
+                }
+                else{
+                    return Math.min(leftTreeMin, node.right.val);
+                }
+            }
+            else{
+                int rightTreeMin = helper(node.right);
+                if(rightTreeMin == -1){
+                    return node.left.val;
+                }
+                else{
+                    return Math.min(rightTreeMin, node.left.val);
+                }
+            }
+        }
+        // or they can even have equal values.
+        int leftMin = helper(node.left);
+        int rightMin = helper(node.right);
+        if(leftMin == -1){  // not found in the left tree.
+            if(rightMin == -1){ // not found in the right tree as well.
+                return -1;
+            }
+            else{   // right subtree should give us the correct answer.
+                return rightMin;
+            }
+        }
+        if(rightMin == -1){ // not found in the right subtree.
+            if(leftMin == -1){  // not found in the left subtree as well.
+                return -1;
+            }
+            else{
+                return leftMin; // left subtree should give us the correct answer.
+            }
+        }  
+        return Math.min(leftMin, rightMin);
+    }
+    
+}
