@@ -1,0 +1,23 @@
+class Solution {
+    
+    private int maxDepth;
+    
+    public int maxDepth(TreeNode root) {
+        maxDepth = 0;
+        dfs(root, 1);
+        return maxDepth; // Here there is no needs for if else checking!
+    }
+    
+    private void dfs(TreeNode node, int levelNo){
+        if(node != null){
+            if(node.left == null && node.right == null){ // its a leaf that we have encountered.
+                if(maxDepth < levelNo){
+                    maxDepth = levelNo;
+                }
+            }
+            dfs(node.right, levelNo + 1);
+            dfs(node.left, levelNo + 1);
+        }
+    }
+    
+}
