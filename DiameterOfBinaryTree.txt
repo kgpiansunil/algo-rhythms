@@ -1,0 +1,22 @@
+class Solution {
+    
+    private int maxNodesCount;
+    
+    public int diameterOfBinaryTree(TreeNode root) {
+        helper(root);
+        return maxNodesCount != 0 ? maxNodesCount - 1 : 0; 
+    }
+    
+    private int helper(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+        int leftMax = helper(node.left);
+        int rightMax = helper(node.right);
+        if(maxNodesCount < leftMax + rightMax + 1){
+            maxNodesCount = leftMax + rightMax + 1;
+        }
+        return Math.max(leftMax, rightMax) + 1;
+    }
+    
+}
