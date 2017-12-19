@@ -1,0 +1,47 @@
+class Solution {
+    public int findMinMoves(int[] machines) {
+        if(machines == null){   // Absurd input and here we do not have to do anything.
+            return 0;
+        }
+        int length = machines.length;
+        if(length == 0){
+            return 0;           // Here also we do not have to do anything.
+        }
+        // If we have reached here then it means that our length is at least 1.
+        int expectedCount = 0;
+        int sum = 0;
+        for(int i = 0; i < length; i++){
+            sum += machines[i];
+        }
+        if(sum % length != 0){
+            return -1;  // It is not possible to do in this case.
+        }
+        expectedCount = sum / length;
+        int[] moves = new int[length];
+        for(int i = 0; i <= length - 2; i++){
+            if(machines[i] > expectedCount){    // Pass the extra to the right machine
+                int extra = machines[i] - expectedCount;
+                machines[i + 1] += extra;
+                machines[i] = expectedCount;
+                moves[i] += extra;
+            }
+            else{                               // We have to take in or do nothing(if they are equal)
+                int deficit = expectedCount - machines[i];
+                machines[i + 1] = machines[i + 1] - deficit;
+                machines[i] = expectedCount;
+                moves[i + 1] += deficit;
+            }
+        }
+        
+        // Now we have to simply find the maximum among our elements in the move array as it would be the moves that we have to take it and 
+        // also we cant further minimize it.
+        int result = 0;
+        for(int i = 0; i < length; i++){
+            if(result < moves[i]){
+                result = moves[i];
+            }
+        }
+        
+        return result;
+    }
+}
