@@ -1,0 +1,20 @@
+class Solution {
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        TreeNode mergedRoot = helper(t1, t2);
+        return mergedRoot;
+    }
+    
+    private TreeNode helper(TreeNode node1, TreeNode node2){
+        if(node1 != null && node2 != null){ // Only if both of them are actual nodes and not null.
+            node1.val += node2.val;
+            node1.left = helper(node1.left, node2.left);
+            node1.right = helper(node1.right, node2.right);
+            return node1;
+        }
+        if(node2 != null){ // one of them has to be null that is why we have reached here. Now if the second one for sure is not null.
+            return node2;   // the whole node2 has to be returned otherwise the lower branches may be skipped. Note that.
+        }
+        return node1; // now node1 can be null as well not not null but it doesn't matter if we reach here as our second node is null for                           // sure.
+    }
+    
+}
