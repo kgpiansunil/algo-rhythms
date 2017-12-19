@@ -1,0 +1,21 @@
+class Solution {
+    // It is given that the array is non-empty and the majority element always exist in the array.
+    public int majorityElement(int[] nums) {
+        int length = nums.length;   // It is for sure that the length is atleast one as the array is non-empty is given to us.
+        int count = 0;
+        int candidate = Integer.MIN_VALUE;    // We just dont want to say anything and that is the reason we put nothing here or a big                                                     // negative dummy value.
+        for(int i = 0; i < length; i++){
+            if(count == 0){ // it means that we just disregarded the prefix(it occurs in the start as well ofcourse).
+                candidate = nums[i];
+            }
+            if(candidate == nums[i]){
+                count++;
+            }
+            else{
+                count--;
+            }
+        }
+        
+        return candidate;
+    }
+}
