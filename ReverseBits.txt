@@ -1,0 +1,17 @@
+public class Solution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int result = 0;
+        for(int i = 0; i < 32; i++){    // this loop runs fuckin 32 times which is the length of an integer and deals with every digit
+                                        //  of the input one by one.
+            result += (n & 1);
+            n >>>= 1;                   // unsigned shift we are doing here (we are actually preparing things for the next iteration).
+            if(i != 31){
+                result <<= 1;           // else we do not need to prepare things for the next iteration or it will mess up the things.    
+            }
+        }
+        
+        return result;
+    }
+    
+}
