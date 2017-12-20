@@ -1,0 +1,29 @@
+class Solution {
+    public boolean isSubtree(TreeNode s, TreeNode t) {
+        if(s == null && t == null){
+            return false;                   // as trivially there are not even trees existing so forget about being subtrees of each other.
+        }
+        return helper(s, t);
+    }
+    
+    private boolean equals(TreeNode a, TreeNode b){
+        if(a != null && b != null){
+            return (a.val == b.val) && equals(a.left, b.left) && equals(a.right, b.right);
+        }
+        if(a == null && b == null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    private boolean helper(TreeNode root, TreeNode node){
+        if(root != null){
+            return equals(root, node) || helper(root.left, node) || helper(root.right, node);
+        }
+        else{
+            return false;
+        }
+    }
+}
