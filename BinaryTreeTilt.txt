@@ -1,0 +1,21 @@
+class Solution {
+    
+    private int sumTilt;
+    
+    public int findTilt(TreeNode root) {
+        helper(root);                       // We dont even want to catch the returned value.
+        return sumTilt;
+    }
+    
+    private int helper(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+        int leftSum = helper(node.left);
+        int rightSum = helper(node.right);
+        int tilt = Math.abs(leftSum - rightSum);
+        sumTilt += tilt;
+        return leftSum + rightSum + node.val;
+    }
+    
+}
