@@ -1,0 +1,48 @@
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        boolean isLeftSubtreeBST = isValidBST(root.left);
+        boolean isRightSubtreeBST = isValidBST(root.right);
+        boolean isBetween = false;
+        boolean isGreaterThanLeft = false;
+        boolean isSmallerThanRight = false;
+        TreeNode leftNode = root.left;
+        int leftMax = root.val;
+        TreeNode rightNode = root.right;
+        int rightMin = root.val;
+        if(leftNode == null){
+            isGreaterThanLeft = true;
+        }
+        else{
+            while(leftNode != null){
+                leftMax = leftNode.val;
+                leftNode = leftNode.right;
+            }
+            if(root.val > leftMax){
+                isGreaterThanLeft = true;
+            }
+        }
+        
+        if(rightNode == null){
+            isSmallerThanRight = true;
+        }
+        else{
+            while(rightNode != null){
+                rightMin = rightNode.val;
+                rightNode = rightNode.left;
+            }
+            if(root.val < rightMin){
+                isSmallerThanRight = true;
+            }
+        }
+       
+        if(isGreaterThanLeft && isSmallerThanRight){
+            isBetween = true;
+        }
+        return isLeftSubtreeBST && isRightSubtreeBST && isBetween;
+        
+    }
+    
+}
