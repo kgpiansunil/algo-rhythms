@@ -1,0 +1,25 @@
+class Solution {
+    public int splitArray(int[] nums, int m) {
+        // I am assuming that no non-sensible input are given to us as they wouldn't make any sense in returning the things.
+        int length = nums.length;
+        int[][] dpMatrix = new int[length][m + 1];  // We want the naming to be intuitive so we are using m + 1 here.
+        dpMatrix[0][1] = nums[0];                   // wouldn't be a compile time error for sure.
+        // Base case.
+        for(int i = 1; i < length; i++){
+            dpMatrix[i][1] = dpMatrix[i - 1][1] + nums[i];
+        }
+        
+        for(int j = 2; j <= m; j++){
+            for(int i = j - 1; i < length; i++){
+                int min = Integer.MAX_VALUE;
+                int lastDivisionSum = 0;
+                for(int k = i - 1; k >= j - 2; k--){
+                    lastDivisionSum += nums[k + 1];
+                    min = Math.min(min, Math.max(dpMatrix[k][j - 1], lastDivisionSum));
+                }
+                dpMatrix[i][j] = min;
+            }
+        }
+        return dpMatrix[length - 1][m];
+    }
+}
