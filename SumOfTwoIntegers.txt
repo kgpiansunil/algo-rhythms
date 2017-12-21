@@ -1,0 +1,13 @@
+class Solution {
+    public int getSum(int a, int b) {
+        // Basically when we doing xor of two numbers we are almost emulating addition except the places where there are two 1's. There               // actually we should take the effect of carry over 1 to the next place. So we need those positions where there are two 1's                   // encountered when we add the things(we can almost immediately say that & can serve this purpose) and shift it to one position left
+        // to take the effect and do it recursively till our b eventually becomes 0. Else we would make a non-terminating program. This is
+        // because a left shift on 0 does it 0 itself.
+        if(b == 0){             // This needs to be thought upon that it will eventually reach this point.
+            return a;
+        }
+        else{
+            return getSum(a ^ b, (a & b) << 1);
+        }
+    }
+}
