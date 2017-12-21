@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isPowerOfTwo(int n) {
+        boolean check1 = false;
+        if((n & (n - 1)) == 0){           // It means that it has one 1 present in its binary representation(it can be 0 as well)
+            check1 = true;
+        }
+        boolean check2 = false;
+        if((n & (Integer.MAX_VALUE)) != 0){   // This ensures that 1 is not at the start(the reason why we are doing & with 0111111.... which
+                                            // ) which is nothing but the max value of the integer.
+            check2 = true;
+        }
+        return check1 && check2;
+    }
+}
