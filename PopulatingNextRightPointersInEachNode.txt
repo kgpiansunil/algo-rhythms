@@ -1,0 +1,33 @@
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        Queue<TreeLinkNode> queue = new LinkedList<TreeLinkNode>();
+        if(root == null){
+            return;
+        }
+        // If we have reached here it means that root is not null and atleast one node is in our tree and hence we can safely do this.
+        queue.add(root);
+        while(!queue.isEmpty()){
+            int size = queue.size();                    // It is atleast 1 here and we need not to worry. This is because we have checked
+                                                        // above that our size is atleast 1.
+            TreeLinkNode prev = queue.remove();
+            if(prev.left != null){
+                queue.add(prev.left);
+            }
+            if(prev.right != null){
+                queue.add(prev.right);
+            }
+            for(int i = 1; i < size; i++){      // As we have dealt with 0 already.
+                TreeLinkNode node = queue.remove();
+                prev.next = node;
+                prev = node;
+                if(node.left != null){
+                    queue.add(node.left);
+                }
+                if(node.right != null){
+                    queue.add(node.right);
+                }
+            }
+            prev.next = null;
+        }
+    }
+}
