@@ -1,0 +1,37 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        Map<Character, Integer> map = new HashMap();
+        int lengthS = s.length();
+        int lengthT = t.length();
+        for(int i = 0; i < lengthS; i++){
+            char key = s.charAt(i);
+            if(map.containsKey(key)){
+                int value = map.get(key);
+                value++;
+                map.put(key, value);
+            }
+            else{
+                map.put(key, 1);
+            }
+        }
+        
+        for(int i = 0; i < lengthT; i++){
+            char key = t.charAt(i);
+            if(map.containsKey(key)){
+                int value = map.get(key);
+                if(value == 1){
+                    map.remove(key);
+                }
+                else{
+                    value--;
+                    map.put(key, value);
+                }
+            }
+            else{
+                return key;
+            }
+        }
+        
+        return '3';                 // This is shit basically and would never get returned unless the input is bad which cannot be the case                                       // here.
+    }
+}
