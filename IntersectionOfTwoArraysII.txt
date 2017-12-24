@@ -1,0 +1,44 @@
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        
+        Map<Integer, Integer> map = new HashMap();
+        
+        for(int i = 0; i < length1; i++){
+            int key = nums1[i];
+            int value = 1;
+            if(map.containsKey(key)){
+                value = map.get(key);
+                value++;
+            }
+            map.put(key, value);
+        }
+        
+        List<Integer> list = new ArrayList();
+        
+        for(int i = 0; i < length2; i++){
+            int key = nums2[i];
+            if(map.containsKey(key)){
+                int value = map.get(key);
+                if(value == 1){
+                    map.remove(key);
+                }
+                else{
+                    value--;
+                    map.put(key, value);
+                }
+                list.add(key);
+            }
+        }
+        
+        int k = 0;
+        int size = list.size();
+        int[] intersectionList = new int[size];
+        for(int e : list){
+            intersectionList[k++] = e;
+        }
+        
+        return intersectionList;
+    }
+}
