@@ -1,0 +1,23 @@
+class Solution {
+    public int[] findErrorNums(int[] nums) {
+        Set<Integer> set = new HashSet<Integer>();
+        int sum = 0;
+        int length = nums.length;
+        int[] ans = new int[2];
+        for(int i = 0; i < length; i++){
+            sum += nums[i];
+            int key = nums[i];
+            if(set.contains(key)){
+                ans[0] = key;
+            }
+            else{
+                set.add(key);
+            }
+        }
+        
+        int expectedSum = (length * (length + 1)) / 2;
+        ans[1] = expectedSum - sum + ans[0];
+        
+        return ans;
+    }
+}
