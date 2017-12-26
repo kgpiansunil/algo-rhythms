@@ -1,0 +1,36 @@
+class Solution {
+    public boolean isInterleave(String s1, String s2, String s3) {
+        // I am assuming that our input is never null and always we get a sensible input to deal with.
+        
+        int length1 = s1.length();
+        int length2 = s2.length();
+        int length3 = s3.length();
+        
+        if(length1 + length2 != length3){
+            return false;
+        }
+        
+        boolean[][] dp = new boolean[length1 + 1][length2 + 1];
+        
+        dp[length1][length2] = true;
+        
+        // Base case -> filling up our last row.
+        for(int j = length2 - 1; j >= 0; j--){
+            dp[length1][j] = dp[length1][j + 1] && (s3.charAt(length1 + j) == s2.charAt(j));
+        }
+        
+        // Base case -> filling up our last column
+        for(int i = length1 - 1; i >= 0; i--){
+            dp[i][length2] = dp[i + 1][length2] && (s3.charAt(i + length2) == s1.charAt(i));
+        }
+        
+        // filling up our rest of the dp table
+        for(int i = length1 - 1; i >= 0; i--){
+            for(int j = length2 - 1; j >= 0; j--){
+                dp[i][j] = (dp[i + 1][j] && (s3.charAt(i + j) == s1.charAt(i))) || (dp[i][j + 1] && (s3.charAt(i + j) == s2.charAt(j)));
+            }
+        }
+        
+        return dp[0][0];
+    }
+}
