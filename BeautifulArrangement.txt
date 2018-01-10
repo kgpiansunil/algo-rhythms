@@ -1,0 +1,40 @@
+class Solution {
+    
+    private int numberOfArrangements = 0;
+    
+    public int countArrangement(int N) {    
+        boolean[] tracked = new boolean[N + 1];
+        // NOTE: In the tracked array true denotes that the index has been used once till now
+        //                            false denotes that the index has not been used till now
+        
+        helper(tracked, N, 1);
+        
+        return numberOfArrangements;
+    }
+    
+    public void helper(boolean[] tracked, int N, int position){
+        if(position > N){                                       // It means we have filled up all the before positions correctly and came                                                                     // here.
+            numberOfArrangements++;
+        }
+        for(int i = 1; i <= N; i++){
+            if(tracked[i] == false){                            // it means that it is available for picking up
+                boolean ans = checkForCorrectness(i, position);
+                if(ans == true){                                // it means that the index that we have selected is a perfect fit for this 
+                                                                // position
+                    tracked[i] = true;                          // value is used up and it signals for the next iteration
+                    helper(tracked, N, position + 1);
+                    tracked[i] = false;
+                }
+                // if the ans is false nothing should be done and we should simply move ahead to the next position
+            }
+        }
+    }
+    
+    private boolean checkForCorrectness(int i, int position){
+        if(i % position == 0 || position % i == 0){             // either i is a divisor or i is a multiple of the position
+            return true;
+        }
+        return false;
+    }
+    
+}
