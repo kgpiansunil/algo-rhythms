@@ -1,0 +1,42 @@
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        Map<Integer, Integer> map = createHashMap(inorder);
+        int lengthI = inorder.length;
+        int lengthP = preorder.length;
+        
+        if(lengthI == 0){                                           // it also means that lengthP is 0.
+            return null;
+        }
+        
+        // else it is ensured that they have atleast 1 elements each.
+        TreeNode root = helper(inorder, 0, lengthI - 1, preorder, 0, lengthP - 1, map);
+        
+        return root;
+    }
+    
+    private TreeNode helper(int[] inorder, int inS, int inE, int[] preorder, int preS, int preE, Map<Integer, Integer> map){
+        if(inS > inE){                          // this happens along with the preorder thing also as the difference stays the same.
+            return null;
+        }
+        TreeNode node = new TreeNode(preorder[preS]);
+        
+        int indexInInorderArrayOfNode = map.get(preorder[preS]);
+        
+        node.left = helper(inorder, inS, indexInInorderArrayOfNode - 1, preorder, preS + 1, indexInInorderArrayOfNode - inS + preS, map);
+        node.right = helper(inorder, indexInInorderArrayOfNode + 1, inE, preorder, indexInInorderArrayOfNode - inS + 1 + preS, preE, map);
+        
+        return node;
+    }
+    
+    private Map<Integer, Integer> createHashMap(int[] inorder){
+        int length = inorder.length;                                // computing it once so that we dont need to compute it again and again.
+        Map<Integer, Integer> map = new HashMap<>();                // create a hashmap which we have to return eventually.
+        for(int i = 0; i < length; i++){                            // going through the inorder array to put the keys in a hashmap against 
+                                                                    // their indices.
+            map.put(inorder[i], i);
+            
+        }
+        return map;
+    }
+    
+}
