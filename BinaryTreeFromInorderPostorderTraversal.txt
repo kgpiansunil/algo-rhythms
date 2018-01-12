@@ -1,0 +1,39 @@
+class Solution {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        int lengthI = inorder.length;
+        int lengthP = postorder.length;
+        if(lengthI == 0){                                        // it also means that lengthP is also 0    
+            return null;
+        }   
+        Map<Integer, Integer> map = createHashMap(inorder);
+        TreeNode root = helper(inorder, 0, lengthI - 1, postorder, 0, lengthP - 1, map);
+        return root;
+    }
+    
+    private TreeNode helper(int[] inorder, int inS, int inE, int[] postorder, int postS, int postE, Map<Integer, Integer> map){
+        if(inS > inE){                                          // it happens along with the postorder thing as they together
+                                                                // which can be easily seen and prooved.
+            return null;
+        }
+        
+        TreeNode root = new TreeNode(postorder[postE]);
+        
+        int index = map.get(root.val);                          // grabbed the index fastly from the inorder array
+        
+        root.right = helper(inorder, index + 1, inE, postorder, postE - inE + index, postE - 1, map);
+        root.left = helper(inorder, inS, index - 1, postorder, postS, postE - inE + index - 1, map);
+        
+        return root;
+    }
+    
+    private Map<Integer, Integer> createHashMap(int[] inorder){
+        int length = inorder.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i < length; i++){                        // we have inserted the elements along with their indices in the map for 
+                                                                // faster access
+            map.put(inorder[i], i);
+        }
+        return map;
+    }
+    
+}
