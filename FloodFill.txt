@@ -1,0 +1,31 @@
+class Solution {
+    
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        
+        int rows = image.length;
+        int cols = image[0].length;
+    
+        boolean[][] tracker = new boolean[rows][cols];                          // initially everything is set to false and anything changed
+                                                                                // should give the value of true as a marker.
+        
+        int mainColor = image[sr][sc];                                          // there is no risk involved here because of the given                                                                                       // constraints.
+        HashSet<Solution> set = new HashSet<>();
+        
+        helper(image, sr, sc, newColor, mainColor, tracker);
+        return image;
+        
+    }
+    
+    private void helper(int[][] image, int sr, int sc, int newColor, int mainColor, boolean[][] tracker){
+        
+        if((sr >= 0 && sr < image.length) && (sc >= 0 && sc < image[0].length) && image[sr][sc] == mainColor && tracker[sr][sc] == false){                // if sr, sc points to a valid index it says
+            image[sr][sc] = newColor;                                                                   // change the color of that position
+            tracker[sr][sc] = true;
+            helper(image, sr + 1, sc, newColor, mainColor, tracker);
+            helper(image, sr - 1, sc, newColor, mainColor, tracker);
+            helper(image, sr, sc + 1, newColor, mainColor, tracker);
+            helper(image, sr, sc - 1, newColor, mainColor, tracker);
+        }
+    }
+    
+}
