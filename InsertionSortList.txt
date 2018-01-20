@@ -1,0 +1,32 @@
+class Solution {
+    public ListNode insertionSortList(ListNode head) {
+        if(head == null){
+            return null;
+        }
+        
+        ListNode dummy = new ListNode(-1);
+        ListNode temp = head.next;
+        dummy.next = head;
+        dummy.next.next = null;
+        
+        while(temp != null){
+            ListNode move = dummy; 
+            while(move.next.val <= temp.val){
+                move = move.next;
+                if(move.next == null){
+                    break;
+                }
+            }
+            
+            ListNode rightNode = move.next;
+            ListNode nextTemp = temp.next;
+            
+            move.next = temp;
+            temp.next = rightNode;
+            
+            temp = nextTemp;
+        }
+        
+        return dummy.next;
+    }
+}
