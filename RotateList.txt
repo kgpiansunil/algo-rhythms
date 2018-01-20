@@ -1,0 +1,39 @@
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        int length = length(head);
+        if(length == 0){                                // if we dont do this we can get a null pointer exception in the modulo step.
+            return null;
+        }
+        
+        k = k % length;
+        
+        if(k == 0){
+            return head;
+        }
+        
+        ListNode temp = head;
+        for(int i = 1; i < length - k; i++){
+            temp = temp.next;
+        }
+        ListNode newHead = temp.next;
+        temp.next = null;
+        
+        ListNode move = newHead;
+        
+        while(move.next != null){
+            move = move.next;
+        }
+        
+        move.next = head;
+        
+        return newHead;
+    }
+    
+    private int length(ListNode head){
+        int length = 0;
+        for(ListNode temp = head; temp != null; temp = temp.next){
+            length++;
+        }
+        return length;
+    }
+}
