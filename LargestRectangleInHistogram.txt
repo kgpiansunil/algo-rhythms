@@ -1,0 +1,48 @@
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        int length = heights.length;
+        
+        if(length == 0){
+            return 0;
+        }
+        
+        // if we have reached this point it means that our length is >= 1 and we are free of runtime errors.
+        int[] leftBoundary = new int[length];
+        int[] rightBoundary = new int[length];
+        
+        fillLeftBoundary(heights, leftBoundary);
+        fillRightBoundary(heights, rightBoundary);
+        
+        int maxArea = 0;                            // this should be written here, not MinValue as that would give us problem for the empty                                                     //  case
+        
+        for(int i = 0; i < length; i++){
+            maxArea = Math.max(maxArea, (rightBoundary[i] - leftBoundary[i] - 1) * heights[i]);
+        }
+        
+        return maxArea;
+    }
+    
+    private void fillLeftBoundary(int[] heights, int[] leftBoundary){
+        int length = heights.length;
+        leftBoundary[0] = -1;
+        for(int i = 1; i < length; i++){
+            int p = i - 1;
+            while(p >= 0 && heights[p] >= heights[i]){
+                p = leftBoundary[p];
+            }
+            leftBoundary[i] = p;
+        }
+    }
+    
+    private void fillRightBoundary(int[] heights, int[] rightBoundary){
+        int length = heights.length;
+        rightBoundary[length - 1] = length;
+        for(int i = length - 2; i >= 0; i--){
+            int p = i + 1;
+            while(p <= length - 1 && heights[p] >= heights[i]){
+                p = rightBoundary[p];       
+            }
+            rightBoundary[i] = p;
+        }
+    }
+}
