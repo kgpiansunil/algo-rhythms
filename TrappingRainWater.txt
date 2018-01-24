@@ -1,0 +1,42 @@
+class Solution {
+    
+    public int trap(int[] height) {
+        int length = height.length;
+        if(length == 0){                   
+            return 0;
+        }
+        
+        int water = 0;
+        
+        int[] leftMax = new int[length];
+        int[] rightMax = new int[length];
+        
+        fillLeftMax(leftMax, height);
+        fillRightMax(rightMax, height);
+        
+        for(int i = 1; i < length; i++){            
+            if(leftMax[i] > height[i] && rightMax[i] > height[i]){
+                water += Math.min(leftMax[i], rightMax[i]) - height[i];
+            }
+        }
+        
+        return water;
+    }
+    
+    private void fillLeftMax(int[] leftMax, int[] height){
+        int length = height.length;
+        leftMax[0] = -1;                                    // it means that it does not exist.
+        for(int i = 1; i < length; i++){
+            leftMax[i] = Math.max(leftMax[i - 1], height[i - 1]);
+        }
+    }
+    
+    private void fillRightMax(int[] rightMax, int[] height){
+        int length = height.length;
+        rightMax[length - 1] = -1;                          // it means that it does not exist.
+        for(int i = length - 2; i >= 0; i--){
+            rightMax[i] = Math.max(rightMax[i + 1], height[i + 1]);
+        }
+    }
+    
+}
