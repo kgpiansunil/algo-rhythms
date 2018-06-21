@@ -1,0 +1,18 @@
+class Solution {
+    public int[] countBits(int num) {
+        int length = num + 1;
+        int[] ansArray = new int[length];
+        ansArray[0] = 0;
+        int nextTwoPower = 1;
+        for(int i = 1; i < length; i++){
+            if(i == nextTwoPower){
+                ansArray[i] = 1;
+                nextTwoPower *= 2;
+            }
+            else{
+                ansArray[i] = ansArray[nextTwoPower/2] + ansArray[i - nextTwoPower/2];
+            }
+        }
+        return ansArray;
+    }
+}
