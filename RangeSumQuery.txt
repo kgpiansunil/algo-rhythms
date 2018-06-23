@@ -1,0 +1,29 @@
+class NumArray {
+
+    private int[] sumUntil;
+    private int[] nums;
+    
+    public NumArray(int[] nums) {
+        if(nums != null){
+            this.nums = nums;
+            int length = nums.length;
+            this.sumUntil = new int[length];
+            if(length >= 1){
+                sumUntil[0] = nums[0];   
+            }
+            for(int i = 1; i < length; i++){
+                 sumUntil[i] = sumUntil[i - 1] + nums[i];
+            }   
+        }
+    }
+    
+    public int sumRange(int i, int j) {
+        return sumUntil[j] - sumUntil[i] + nums[i];                 // absolute is written here just to make sure.
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * int param_1 = obj.sumRange(i,j);
+ */
